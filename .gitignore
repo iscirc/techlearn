@@ -1,0 +1,15 @@
+# Credenciais e senhas
+.env
+application-local.properties
+
+# Java / Eclipse
+target/
+.classpath
+.project
+.settings/
+
+# Node (frontend)
+node_modules/
+
+# Lixo do Windows
+Thumbs.db
