@@ -32,3 +32,52 @@ perfil varchar (20) not null default 'Aluno',
 criado_em timestamp not null default current_timestamp,
 check (perfil in ('Aluno', 'Admin'))
 );
+
+create table aulas (
+id bigint not null auto_increment primary key,
+curso_id bigint not null,
+titulo varchar (150) not null,
+video_youtube_id varchar (20) not null,
+ordem int not null,
+descricao text,
+foreign key (curso_id) references cursos(id) on delete cascade
+);
+
+create table matriculas (
+id bigint not null auto_increment primary key,
+usuario_id bigint not null,
+curso_id bigint not null,
+matriculado_em timestamp not null default current_timestamp,
+unique (usuario_id, curso_id),
+foreign key (usuario_id) references usuarios(id) on delete cascade,
+foreign key (curso_id) references cursos(id) on delete cascade
+);
+
+create table favoritos (
+id bigint not null auto_increment primary key,
+usuario_id bigint not null,
+curso_id bigint not null,
+criado_em timestamp not null default current_timestamp,
+unique (usuario_id, curso_id),
+foreign key (usuario_id) references usuarios(id) on delete cascade,
+foreign key (curso_id) references cursos(id) on delete cascade
+);
+
+create table progresso_aulas (
+id bigint not null auto_increment primary key,
+usuario_id bigint not null,
+aula_id bigint not null,
+concluido_em timestamp null,
+status varchar (20) not null default 'Pendente',
+unique (usuario_id, aula_id),
+foreign key (usuario_id) references usuarios(id) on delete cascade,
+foreign key (aula_id) references aulas(id) on delete cascade,
+check (status in ('Pendente', 'Concluida'))
+
+);
+
+select table_name, column_name, referenced_table_name
+from information_schema.key_column_usage
+where table_schema = 'techlearn' and referenced_table_name is not null;
+
+
