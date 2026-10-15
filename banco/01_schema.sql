@@ -22,3 +22,13 @@ descricao text
     foreign key (categoria_id) REFERENCES categorias(id)
     
 );
+
+create table usuarios (
+id bigint not null auto_increment primary key,
+nome varchar (100) not null,
+email varchar (100) not null unique,
+senha_hash varchar (255) not null,
+perfil varchar (20) not null default 'Aluno',
+criado_em timestamp not null default current_timestamp,
+check (perfil in ('Aluno', 'Admin'))
+);
