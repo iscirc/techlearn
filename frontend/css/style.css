@@ -86,8 +86,6 @@ body {
     color: var(--azul-escuro);
 }
 
-/* Apresentação e busca */
-
 .apresentacao {
     padding: 36px 28px 20px;
     text-align: center;
@@ -200,7 +198,6 @@ body {
     font-size: 15px;
 }
 
-/* Lista de cursos */
 
 .lista-cursos {
     padding: 10px 40px 100px;
