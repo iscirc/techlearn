@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TechLearn - Aprenda tecnologia</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="pagina">
+
+        <header class="cabecalho">
+            <a class="logo" href="index.html">TechLearn</a>
+
+            <nav class="menu">
+                <a href="#categorias">Cursos</a>
+                <a href="#categorias">Categorias</a>
+                <a class="botao-entrar" href="login.html">Entrar</a>
+                <a class="botao-cadastro" href="cadastro.html">Criar conta</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="apresentacao">
+                <h1>Aprenda tecnologia no seu ritmo</h1>
+
+                <p>
+                    Cursos de Python, Java, Banco de Dados e muito mais
+                    com aulas em vídeo.
+                </p>
+
+                <form class="busca" id="form-busca">
+                    <input
+                        type="search"
+                        id="campo-busca"
+                        placeholder="Digite o nome do curso"
+                        aria-label="Digite o nome do curso"
+                    >
+
+                    <button type="submit">Buscar</button>
+                </form>
+            </section>
+
+            <section class="categorias" id="categorias">
+                <h2>Categorias</h2>
+
+                <div class="grade-categorias">
+                    <a class="card-categoria" href="#cursos-python"
+                       data-categoria="python">
+                        <h3>Python</h3>
+                        <p>Do básico ao avançado</p>
+                    </a>
+
+                    <a class="card-categoria" href="#cursos-java"
+                       data-categoria="java">
+                        <h3>Java</h3>
+                        <p>Do básico ao avançado</p>
+                    </a>
+
+                    <a class="card-categoria" href="#cursos-banco-de-dados"
+                       data-categoria="banco de dados">
+                        <h3>Banco de Dados</h3>
+                        <p>Do básico ao avançado</p>
+                    </a>
+                </div>
+
+                <p id="mensagem-busca" class="mensagem-busca"
+                   aria-live="polite"></p>
+            </section>
+
+            <section class="lista-cursos" id="lista-cursos">
+                <h2>Explore nossos cursos</h2>
+
+                <div class="grade-cursos">
+                    <article class="card-curso" id="cursos-python"
+                             data-nome="Python para Iniciantes"
+                             data-categoria="python">
+                        <span class="etiqueta">Programação</span>
+                        <h3>Python para Iniciantes</h3>
+                        <p>Aprenda a programar do zero com Python.</p>
+                    </article>
+
+                    <article class="card-curso" id="cursos-java"
+                             data-nome="Java Avançado"
+                             data-categoria="java">
+                        <span class="etiqueta">Programação</span>
+                        <h3>Java Avançado</h3>
+                        <p>Aprofunde seus conhecimentos em Java.</p>
+                    </article>
+
+                    <article class="card-curso" id="cursos-banco-de-dados"
+                             data-nome="Banco de Dados"
+                             data-categoria="banco de dados">
+                        <span class="etiqueta">Dados</span>
+                        <h3>Banco de Dados</h3>
+                        <p>Aprenda a gerenciar e otimizar bases de dados.</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <button class="botao-chat" id="botao-chat" type="button">
+            <span aria-hidden="true">✦</span>
+            Dúvidas? Fale com a IA
+        </button>
+
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

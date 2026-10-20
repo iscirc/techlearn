@@ -1,0 +1,360 @@
+
+:root {
+    --azul-escuro: #0d3975;
+    --azul: #2864ca;
+    --fundo: #f0f4fc;
+    --texto: #1a2a44;
+    --texto-secundario: #465a79;
+    --borda: #d5e0f2;
+    --branco: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+    
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+    color: var(--texto);
+    background: var(--fundo);
+}
+
+.pagina {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    background: var(--fundo);
+    border: none;
+    border-radius: 0;
+}
+
+
+
+.cabecalho {
+    min-height: 76px;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: var(--azul-escuro);
+}
+
+.logo {
+    color: var(--branco);
+    font-size: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.menu a {
+    color: #d7e4ff;
+    font-size: 19px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.menu a:hover {
+    color: var(--branco);
+}
+
+.menu .botao-entrar,
+.menu .botao-cadastro {
+    padding: 13px 26px;
+    border: 2px solid var(--branco);
+    border-radius: 16px;
+    color: var(--branco);
+}
+
+.menu .botao-cadastro {
+    background: var(--branco);
+    color: var(--azul-escuro);
+}
+
+/* Apresentação e busca */
+
+.apresentacao {
+    padding: 36px 28px 20px;
+    text-align: center;
+}
+
+.apresentacao h1 {
+    margin: 0 0 8px;
+    color: var(--azul-escuro);
+    font-size: clamp(28px, 2.5vw, 38px);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.apresentacao > p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: clamp(16px, 1.4vw, 21px);
+    line-height: 1.4;
+}
+
+.busca {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    max-width: 760px;
+    margin: 24px auto 0;
+}
+
+.busca input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 20px;
+    border: 2px solid #b8c9e5;
+    border-radius: 12px;
+    outline: none;
+    background: var(--branco);
+    color: var(--texto);
+    font-family: inherit;
+    font-size: 16px;
+}
+
+.busca input:focus {
+    border-color: var(--azul);
+}
+
+.busca input::placeholder {
+    color: #73839d;
+}
+
+.busca button {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    background: var(--azul);
+    color: var(--branco);
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.busca button:hover {
+    background: var(--azul-escuro);
+}
+
+
+.categorias {
+    padding: 18px 32px 24px;
+}
+
+.categorias > h2,
+.lista-cursos > h2 {
+    margin: 0 0 14px;
+    color: var(--texto-secundario);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.grade-categorias {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.card-categoria {
+    display: block;
+    padding: 18px 22px;
+    border: 2px solid var(--borda);
+    border-radius: 18px;
+    background: var(--branco);
+    text-decoration: none;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.card-categoria h3 {
+    margin: 0 0 6px;
+    color: var(--azul-escuro);
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.card-categoria p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.mensagem-busca {
+    color: var(--texto-secundario);
+    font-size: 15px;
+}
+
+/* Lista de cursos */
+
+.lista-cursos {
+    padding: 10px 40px 100px;
+}
+
+.grade-cursos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.card-curso {
+    padding: 24px;
+    border: 1px solid var(--borda);
+    border-radius: 18px;
+    background: var(--branco);
+    box-shadow: 0 4px 14px rgba(13, 57, 117, 0.06);
+}
+
+.card-curso h3 {
+    margin: 12px 0 8px;
+    color: var(--azul-escuro);
+    font-size: 21px;
+}
+
+.card-curso p {
+    margin: 0;
+    color: var(--texto-secundario);
+    line-height: 1.6;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #e5edfc;
+    color: var(--azul-escuro);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.botao-chat {
+    position: fixed;
+    right: 20px;
+    bottom: 18px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 32px;
+    background: var(--azul-escuro);
+    color: var(--branco);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(13, 57, 117, 0.18);
+}
+
+
+.botao-chat:hover {
+    background: var(--azul);
+}
+
+
+@media (max-width: 900px) {
+    body {
+        padding: 12px;
+    }
+
+    .pagina {
+        margin-top: 12px;
+    }
+
+    .cabecalho {
+        padding: 24px;
+        flex-wrap: wrap;
+    }
+
+    .menu {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .grade-categorias,
+    .grade-cursos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .cabecalho {
+        padding: 18px 22px;
+        flex-wrap: wrap;
+    }
+
+    .menu {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .grade-categorias,
+    .grade-cursos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .cabecalho {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .logo {
+        font-size: 27px;
+    }
+
+    .menu a {
+        font-size: 14px;
+    }
+
+    .apresentacao {
+        padding: 30px 18px 18px;
+    }
+
+    .busca {
+        flex-direction: column;
+    }
+
+    .busca input,
+    .busca button {
+        width: 100%;
+    }
+
+    .categorias,
+    .lista-cursos {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+
+    .grade-categorias,
+    .grade-cursos {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .botao-chat {
+        right: 12px;
+        bottom: 12px;
+        padding: 11px 14px;
+        font-size: 13px;
+    }
+}
+
