@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/curso.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechLearn - Curso</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="pagina">
+
+        <header class="cabecalho">
+            <a class="logo" href="index.html">TechLearn</a>
+
+            <nav class="menu">
+                <a href="index.html">Cursos</a>
+                <a class="botao-entrar" href="login.html">Entrar</a>
+                <a class="botao-cadastro" href="cadastro.html">Criar conta</a>
+            </nav>
+        </header>
+
+        <main class="pagina-curso">
+            <a class="voltar" href="index.html">← Voltar aos cursos</a>
+
+            <h1 id="titulo-curso">Carregando...</h1>
+            <p id="descricao-curso"></p>
+            <p id="mensagem-curso" class="mensagem-busca" aria-live="polite"></p>
+
+            <div class="area-aulas">
+                <div class="player">
+                    <iframe id="player"
+                            title="Vídeo da aula"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen></iframe>
+                    <h2 id="titulo-aula"></h2>
+                </div>
+
+                <aside class="lista-aulas">
+                    <h2>Aulas</h2>
+                    <ol id="lista-aulas"></ol>
+                </aside>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="js/curso.js"></script>
+</body>
+</html>

@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface AulaRepository extends JpaRepository<Aula, Long> {
 
-    List<Aula> findByCursoIdOrderByOrdem(Long cursoId);
+    List<Aula> findByCursoIdOrderByOrdemAsc(Long cursoId);
 }

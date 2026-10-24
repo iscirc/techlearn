@@ -1,0 +1,60 @@
+.pagina-curso {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 32px;
+}
+
+.voltar {
+    color: #2563c9;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.area-aulas {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.player iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 12px;
+    background: #000;
+}
+
+.lista-aulas {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    max-height: 520px;
+    overflow-y: auto;
+}
+
+.lista-aulas ol {
+    margin: 0;
+    padding-left: 22px;
+}
+
+.lista-aulas li {
+    padding: 8px 6px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.lista-aulas li:hover {
+    background: #f0f4fb;
+}
+
+.lista-aulas li.ativa {
+    background: #e0ebff;
+    font-weight: 600;
+}
+
+@media (max-width: 800px) {
+    .area-aulas {
+        grid-template-columns: 1fr;
+    }
+}
