@@ -2,15 +2,18 @@
 const CHAVE_STORAGE_API = 'techlearn_api_url';
 const CHAVE = 'techlearn_usuario';
 
-// URL de produção / túnel HTTPS padrão para o GitHub Pages
-// Você pode alterar pelo console chamando definirApiUrl('https://...') ou clicando no aviso de conexão
-const URL_PRODUCAO_PADRAO = 'https://yesterday-entity-fixes-estimates.trycloudflare.com';
+// URL definitiva de produção na nuvem (Render.com)
+const URL_PRODUCAO_PADRAO = 'https://techlearn-5l7x.onrender.com';
 
 function obterApiUrl() {
   const salva = localStorage.getItem(CHAVE_STORAGE_API);
-  if (salva && salva.trim()) {
+  // Se houver túnel temporário antigo salvo, limpa e usa o Render definitivo
+  if (salva && salva.includes('trycloudflare.com')) {
+    localStorage.removeItem(CHAVE_STORAGE_API);
+  } else if (salva && salva.trim()) {
     return salva.trim().replace(/\/+$/, '');
   }
+
   const host = window.location.hostname;
   const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '';
   if (isLocal) {
