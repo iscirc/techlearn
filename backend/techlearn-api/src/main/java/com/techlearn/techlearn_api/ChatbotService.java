@@ -1,6 +1,6 @@
-
 package com.techlearn.techlearn_api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,12 +35,12 @@ public class ChatbotService {
     public ChatbotService(
             CursoRepository cursoRepository,
             @Value("${chatbot.api-key:}") String apiKey,
-            @Value("${chatbot.modelo:}") String modelo) {
+            @Value("${chatbot.modelo:gemini-3.5-flash-lite}") String modelo) {
 
         this.cursoRepository = cursoRepository;
         this.restClient = RestClient.create();
-        this.apiKey = apiKey;
-        String mod = (modelo != null && !modelo.isBlank()) ? modelo.trim() : "gemini-1.5-flash";
+        this.apiKey = apiKey != null ? apiKey.trim() : "";
+        String mod = (modelo != null && !modelo.isBlank()) ? modelo.trim() : "gemini-3.5-flash-lite";
         if (mod.startsWith("models/")) {
             mod = mod.substring("models/".length());
         }
@@ -86,31 +86,51 @@ public class ChatbotService {
                 )
         );
 
-        try {
-            RespostaIA resposta = restClient.post()
-                    .uri(URL_BASE + modelo + ":generateContent")
-                    .header("x-goog-api-key", apiKey)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(corpo)
-                    .retrieve()
-                    .body(RespostaIA.class);
+        List<String> modelosParaTentar = new ArrayList<>();
+        if (this.modelo != null && !this.modelo.isBlank()) {
+            modelosParaTentar.add(this.modelo);
+        }
+        for (String m : List.of("gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.8-flash")) {
+            if (!modelosParaTentar.contains(m)) {
+                modelosParaTentar.add(m);
+            }
+        }
 
-            return obterResposta(resposta);
+        RestClientResponseException ultimoErroHttp = null;
+        RestClientException ultimoErroClient = null;
 
-        } catch (RestClientResponseException e) {
+        for (String mod : modelosParaTentar) {
+            try {
+                RespostaIA resposta = restClient.post()
+                        .uri(URL_BASE + mod + ":generateContent")
+                        .header("x-goog-api-key", apiKey)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(corpo)
+                        .retrieve()
+                        .body(RespostaIA.class);
 
+                return obterResposta(resposta);
+
+            } catch (RestClientResponseException e) {
+                log.warn("Modelo {} falhou (HTTP {}). Tentando fallback...", mod, e.getStatusCode());
+                ultimoErroHttp = e;
+            } catch (RestClientException e) {
+                log.warn("Modelo {} falhou ({}). Tentando fallback...", mod, e.getMessage());
+                ultimoErroClient = e;
+            }
+        }
+
+        if (ultimoErroHttp != null) {
             throw tratarErro(
-                    e.getStatusCode().value(),
-                    e.getResponseBodyAsString()
-            );
-
-        } catch (RestClientException e) {
-
-            throw tratarErro(
-                    0,
-                    e.getMessage()
+                    ultimoErroHttp.getStatusCode().value(),
+                    ultimoErroHttp.getResponseBodyAsString()
             );
         }
+
+        throw tratarErro(
+                0,
+                ultimoErroClient != null ? ultimoErroClient.getMessage() : "Erro de conexao"
+        );
     }
 
     private String instrucoes() {
@@ -137,15 +157,19 @@ public class ChatbotService {
 
     private String obterResposta(RespostaIA resposta) {
 
-        if (resposta == null
-                || resposta.candidates() == null
+        if (resposta == null || resposta.candidates() == null
                 || resposta.candidates().isEmpty()) {
 
             return SEM_RESPOSTA;
         }
 
-        Conteudo conteudo =
-                resposta.candidates().get(0).content();
+        Candidato candidato = resposta.candidates().get(0);
+
+        if (candidato == null) {
+            return SEM_RESPOSTA;
+        }
+
+        Conteudo conteudo = candidato.content();
 
         if (conteudo == null || conteudo.parts() == null) {
             return SEM_RESPOSTA;
