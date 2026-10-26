@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cursos - TechLearn</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:#F1F5FB;color:#10203D}
+header{background:#0B3A78;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header .marca{color:#fff;font-size:30px;font-weight:700;text-decoration:none}
+nav a{color:#fff;text-decoration:none;margin-left:22px;font-size:18px}
+main{max-width:1100px;margin:36px auto;padding:0 20px}
+h1{margin:0 0 18px;color:#0B3A78}
+form{display:flex;gap:10px;max-width:640px}
+input{flex:1;padding:12px 14px;border:1px solid #BFD0E8;border-radius:8px;font-size:16px}
+input:focus{outline:2px solid #1F5FC8;border-color:#1F5FC8}
+button{padding:12px 22px;border:0;border-radius:8px;background:#1F5FC8;color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+.chips{margin:18px 0 26px;display:flex;gap:10px;flex-wrap:wrap}
+.chip{padding:7px 16px;border-radius:99px;background:#fff;border:1px solid #BFD0E8;color:#0B3A78;text-decoration:none;font-weight:600}
+.chip.ativo{background:#0B3A78;color:#fff;border-color:#0B3A78}
+#lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{background:#fff;border:1px solid #C9D6EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.card h2{margin:0;font-size:19px;color:#0B3A78}
+.card p{margin:0;color:#52617A;flex:1}
+.nivel{align-self:flex-start;font-size:13px;font-weight:700;background:#E3EEFC;color:#1F5FC8;border-radius:99px;padding:3px 12px}
+.card a{align-self:flex-start;background:#1F5FC8;color:#fff;text-decoration:none;font-weight:700;padding:9px 18px;border-radius:8px}
+#msg{margin:10px 0;color:#52617A}
+#msg.erro{color:#9B1C1C;background:#FDECEC;padding:12px;border-radius:8px}
+</style>
+<script src="auth.js"></script>
+<script>exigirLogin();</script>
+</head>
+<body>
+<header>
+  <a class="marca" href="index.html">TechLearn</a>
+  <nav>
+    <a href="cursos.html"> Voltar aos cursos</a>
+    <a href="index.html">Início</a>
+    <a href="login.html" id="btn-entrar">Entrar</a>
+    <a href="cadastro.html" id="btn-criar-conta">Criar conta</a>
+  </nav>
+</header>
+<main>
+  <h1 id="titulo">Cursos</h1>
+  <div id="msg">Carregando cursos...</div>
+  <div id="lista"></div>
+</main>
+<script>
+  const params = new URLSearchParams(location.search);
+  const termo = (params.get('busca') || '').trim();
+  const norm = s => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  if (termo) document.getElementById('titulo').textContent = 'Resultados para "' + termo + '"';
+
+  async function carregar() {
+    const msg = document.getElementById('msg');
+    const lista = document.getElementById('lista');
+    try {
+      const r = await fetch(API + '/cursos');
+      if (!r.ok) throw new Error('status ' + r.status);
+      const cursos = (await r.json()).filter(function (c) { return c.ativo !== false; });
+      const alvo = norm(termo);
+      const achados = cursos.filter(function (c) {
+        return !alvo || norm(c.titulo).includes(alvo) || norm(c.descricao).includes(alvo);
+      });
+      if (!achados.length) {
+        msg.textContent = termo ? 'Nenhum curso encontrado para "' + termo + '". ' : 'Nenhum curso cadastrado ainda. ';
+        const voltar = document.createElement('a');
+        voltar.href = 'index.html'; voltar.textContent = 'Voltar ao início';
+        msg.appendChild(voltar);
+        return;
+      }
+    
+      if (termo && achados.length === 1) {
+        location.replace('curso.html?id=' + achados[0].id);
+        return;
+      }
+      msg.style.display = 'none';
+      achados.forEach(function (c) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const h = document.createElement('h2'); h.textContent = c.titulo;
+        const p = document.createElement('p'); p.textContent = c.descricao || '';
+        card.appendChild(h);
+        if (c.nivel) { const n = document.createElement('span'); n.className = 'nivel'; n.textContent = c.nivel; card.appendChild(n); }
+        card.appendChild(p);
+        const a = document.createElement('a'); a.href = 'curso.html?id=' + c.id; a.textContent = 'Ver curso';
+        card.appendChild(a);
+        lista.appendChild(card);
+      });
+    } catch (e) {
+      msg.textContent = 'Não foi possível carregar os cursos. Confira se a aplicação está rodando no Eclipse.';
+      msg.className = 'erro';
+    }
+  }
+  carregar();
+</script>
+</body>
+</html>

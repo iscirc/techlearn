@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<script src="auth.js"></script>
+<script>exigirLogin();</script>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/curso.css">
     <meta charset="UTF-8">
@@ -18,9 +20,8 @@
             <a class="logo" href="index.html">TechLearn</a>
 
             <nav class="menu">
-                <a href="index.html">Cursos</a>
-                <a class="botao-entrar" href="login.html">Entrar</a>
-                <a class="botao-cadastro" href="cadastro.html">Criar conta</a>
+                <a href="login.html" class="menu" id="btn-entrar">Entrar</a>
+                <a href="cadastro.html" class="menu" id="btn-criar-conta">Criar conta</a>
             </nav>
         </header>
 
@@ -51,5 +52,6 @@
     </div>
 
     <script src="js/curso.js"></script>
+    <script src="chatbot.js"></script>
 </body>
 </html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Criar conta - TechLearn</title>
+<style>*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:#F1F5FB;color:#10203D}header{background:#0B3A78;padding:22px 32px}header a{color:#fff;font-size:30px;font-weight:700;text-decoration:none}main{max-width:420px;margin:48px auto;padding:0 16px}.card{background:#fff;border:1px solid #C9D6EA;border-radius:14px;padding:28px}h1{margin:0 0 6px;font-size:26px}p.sub{margin:0 0 20px;color:#52617A}label{display:block;font-weight:600;margin:14px 0 6px}input{width:100%;padding:12px;border:1px solid #BFD0E8;border-radius:8px;font-size:16px}input:focus{outline:2px solid #1F5FC8;border-color:#1F5FC8}button{width:100%;margin-top:22px;padding:13px;border:0;border-radius:8px;background:#1F5FC8;color:#fff;font-size:17px;font-weight:700;cursor:pointer}button:disabled{opacity:.6;cursor:wait}.msg{margin-top:16px;padding:10px 12px;border-radius:8px;display:none}.erro{background:#FDECEC;color:#9B1C1C}.ok{background:#E6F6EA;color:#14532D}.troca{margin-top:18px;text-align:center}.troca a{color:#1F5FC8;font-weight:600}</style>
+<script src="auth.js"></script>
+</head>
+<body>
+<header><a href="index.html">TechLearn</a></header>
+<main><div class="card">
+  <h1>Criar conta</h1>
+  <p class="sub">Cadastre-se para acessar os cursos.</p>
+  <form id="form">
+    <label for="nome">Nome</label>
+    <input id="nome" type="text" required autocomplete="name">
+    <label for="email">E-mail</label>
+    <input id="email" type="email" required autocomplete="email">
+    <label for="senha">Senha (mínimo de 6 caracteres)</label>
+    <input id="senha" type="password" required minlength="6" autocomplete="new-password">
+    <label for="senha2">Confirmar senha</label>
+    <input id="senha2" type="password" required autocomplete="new-password">
+    <button id="btn" type="submit">Criar conta</button>
+  </form>
+  <div id="msg" class="msg"></div>
+  <p class="troca">Já tem conta? <a id="link-login" href="login.html">Entrar</a></p>
+</div></main>
+<script>
+  const params = new URLSearchParams(location.search);
+  const voltar = destinoSeguro(params.get('voltar'));
+  document.getElementById('link-login').href = 'login.html?voltar=' + encodeURIComponent(voltar);
+
+  function mostrar(texto, tipo) {
+    const m = document.getElementById('msg');
+    m.textContent = texto;
+    m.className = 'msg ' + tipo;
+    m.style.display = 'block';
+  }
+
+  document.getElementById('form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const senha = document.getElementById('senha').value;
+    if (senha !== document.getElementById('senha2').value) {
+      mostrar('As senhas não são iguais.', 'erro');
+      return;
+    }
+    const btn = document.getElementById('btn');
+    btn.disabled = true;
+    try {
+      const r = await postJson('/auth/cadastro', {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        senha: senha
+      });
+      if (r.ok) {
+        mostrar('Conta criada! Redirecionando para o login...', 'ok');
+        setTimeout(function () {
+          location.href = 'login.html?cadastro=ok&voltar=' + encodeURIComponent(voltar);
+        }, 1200);
+        return;
+      }
+      mostrar((r.dados && r.dados.erro) || 'Não foi possível criar a conta.', 'erro');
+    } catch (err) {
+      mostrar('Não foi possível conectar à API. Confira se a aplicação está rodando no Eclipse.', 'erro');
+    }
+    btn.disabled = false;
+  });
+</script>
+</body>
+</html>

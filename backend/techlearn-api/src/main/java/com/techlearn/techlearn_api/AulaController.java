@@ -3,7 +3,6 @@ package com.techlearn.techlearn_api;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,20 +23,9 @@ public class AulaController {
         this.repository = repository;
     }
 
-
     @GetMapping("/curso/{cursoId}")
     public List<Aula> listarPorCurso(
             @PathVariable("cursoId") Long cursoId) {
-
         return repository.findByCursoIdOrderByOrdemAsc(cursoId);
-    }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<Aula> buscar(
-            @PathVariable("id") Long id) {
-
-        return repository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
     }
 }

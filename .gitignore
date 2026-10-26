@@ -1,6 +1,7 @@
 # Credenciais e senhas
 .env
 application-local.properties
+**/application-local.properties
 
 # Java / Eclipse
 target/

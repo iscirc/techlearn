@@ -1,70 +1,74 @@
-const API = 'http://localhost:8080';
+(function () {
 
-const parametros = new URLSearchParams(window.location.search);
-const cursoId = parametros.get('id');
+    const API = 'http://localhost:8080';
 
-const tituloCurso = document.getElementById('titulo-curso');
-const descricaoCurso = document.getElementById('descricao-curso');
-const mensagem = document.getElementById('mensagem-curso');
-const player = document.getElementById('player');
-const tituloAula = document.getElementById('titulo-aula');
-const listaAulas = document.getElementById('lista-aulas');
+    const parametros = new URLSearchParams(window.location.search);
+    const cursoId = parametros.get('id');
 
-function tocarAula(aula, item) {
-    player.src = 'https://www.youtube.com/embed/' + aula.videoYoutubeId + '?rel=0';
-    tituloAula.textContent = aula.titulo;
+    const tituloCurso = document.getElementById('titulo-curso');
+    const descricaoCurso = document.getElementById('descricao-curso');
+    const mensagem = document.getElementById('mensagem-curso');
+    const player = document.getElementById('player');
+    const tituloAula = document.getElementById('titulo-aula');
+    const listaAulas = document.getElementById('lista-aulas');
 
-    listaAulas.querySelectorAll('li').forEach(function (li) {
-        li.classList.remove('ativa');
-    });
-    item.classList.add('ativa');
-}
+    function tocarAula(aula, item) {
+        player.src = 'https://www.youtube.com/embed/' + aula.videoYoutubeId + '?rel=0';
+        tituloAula.textContent = aula.titulo;
 
-function montarLista(aulas) {
-    aulas.forEach(function (aula) {
-        const item = document.createElement('li');
-        item.textContent = aula.titulo;
-        item.addEventListener('click', function () {
-            tocarAula(aula, item);
+        listaAulas.querySelectorAll('li').forEach(function (li) {
+            li.classList.remove('ativa');
         });
-        listaAulas.appendChild(item);
-    });
-}
-
-async function carregarCurso() {
-    if (!cursoId) {
-        mensagem.textContent = 'Curso não informado.';
-        return;
+        item.classList.add('ativa');
     }
 
-    try {
-        const [respostaCurso, respostaAulas] = await Promise.all([
-            fetch(API + '/cursos/' + cursoId),
-            fetch(API + '/aulas/curso/' + cursoId)
-        ]);
+    function montarLista(aulas) {
+        aulas.forEach(function (aula) {
+            const item = document.createElement('li');
+            item.textContent = aula.titulo;
+            item.addEventListener('click', function () {
+                tocarAula(aula, item);
+            });
+            listaAulas.appendChild(item);
+        });
+    }
 
-        if (!respostaCurso.ok || !respostaAulas.ok) {
-            throw new Error('Curso não encontrado');
-        }
-
-        const curso = await respostaCurso.json();
-        const aulas = await respostaAulas.json();
-
-        document.title = 'TechLearn - ' + curso.titulo;
-        tituloCurso.textContent = curso.titulo;
-        descricaoCurso.textContent = curso.descricao || '';
-
-        if (aulas.length === 0) {
-            mensagem.textContent = 'Este curso ainda não tem aulas.';
+    async function carregarCurso() {
+        if (!cursoId) {
+            mensagem.textContent = 'Curso não informado.';
             return;
         }
 
-        montarLista(aulas);
-        tocarAula(aulas[0], listaAulas.firstElementChild);
-    } catch (erro) {
-        console.error(erro);
-        mensagem.textContent = 'Não foi possível carregar o curso. Verifique se a API está rodando.';
-    }
-}
+        try {
+            const [respostaCurso, respostaAulas] = await Promise.all([
+                fetch(API + '/cursos/' + cursoId),
+                fetch(API + '/aulas/curso/' + cursoId)
+            ]);
 
-carregarCurso();
+            if (!respostaCurso.ok || !respostaAulas.ok) {
+                throw new Error('Curso não encontrado');
+            }
+
+            const curso = await respostaCurso.json();
+            const aulas = await respostaAulas.json();
+
+            document.title = 'TechLearn - ' + curso.titulo;
+            tituloCurso.textContent = curso.titulo;
+            descricaoCurso.textContent = curso.descricao || '';
+
+            if (aulas.length === 0) {
+                mensagem.textContent = 'Este curso ainda não tem aulas.';
+                return;
+            }
+
+            montarLista(aulas);
+            tocarAula(aulas[0], listaAulas.firstElementChild);
+        } catch (erro) {
+            console.error(erro);
+            mensagem.textContent = 'Não foi possível carregar o curso. Verifique se a API está rodando.';
+        }
+    }
+
+    carregarCurso();
+
+})();
