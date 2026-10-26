@@ -1,4 +1,3 @@
-
 name: Publicar frontend TechLearn
 
 on:
@@ -33,6 +32,8 @@ jobs:
         run: |
           mkdir -p _site
           cp -R frontend/. _site/
+          mkdir -p _site/frontend
+          cp -R frontend/. _site/frontend/
 
       - name: Enviar arquivos para publicação
         uses: actions/upload-pages-artifact@v3
