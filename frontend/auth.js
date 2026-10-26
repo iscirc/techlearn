@@ -1,5 +1,51 @@
-const API = 'http://localhost:8080';
+// TechLearn - Configuração Centralizada da API e Autenticação
+const CHAVE_STORAGE_API = 'techlearn_api_url';
 const CHAVE = 'techlearn_usuario';
+
+// URL de produção / túnel HTTPS padrão para o GitHub Pages
+// Você pode alterar pelo console chamando definirApiUrl('https://...') ou clicando no aviso de conexão
+const URL_PRODUCAO_PADRAO = 'https://born-cleveland-black-exercises.trycloudflare.com';
+
+function obterApiUrl() {
+  const salva = localStorage.getItem(CHAVE_STORAGE_API);
+  if (salva && salva.trim()) {
+    return salva.trim().replace(/\/+$/, '');
+  }
+  const host = window.location.hostname;
+  const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '';
+  if (isLocal) {
+    return 'http://localhost:8080';
+  }
+  return URL_PRODUCAO_PADRAO;
+}
+
+window.API = obterApiUrl();
+var API = window.API;
+
+function definirApiUrl(novaUrl) {
+  if (!novaUrl || !novaUrl.trim()) {
+    localStorage.removeItem(CHAVE_STORAGE_API);
+    alert('URL da API restaurada para o padrão: ' + URL_PRODUCAO_PADRAO);
+  } else {
+    const limpa = novaUrl.trim().replace(/\/+$/, '');
+    localStorage.setItem(CHAVE_STORAGE_API, limpa);
+    alert('Nova URL da API configurada com sucesso: ' + limpa);
+  }
+  window.location.reload();
+}
+window.definirApiUrl = definirApiUrl;
+
+function promptConfigurarApi() {
+  const atual = obterApiUrl();
+  const nova = window.prompt(
+    'Configurar URL da API TechLearn:\n(Deixe vazio para restaurar o padrão)',
+    atual
+  );
+  if (nova !== null) {
+    definirApiUrl(nova);
+  }
+}
+window.promptConfigurarApi = promptConfigurarApi;
 
 function usuarioLogado() {
   try { return JSON.parse(localStorage.getItem(CHAVE)); } catch (e) { return null; }
@@ -25,7 +71,6 @@ document.addEventListener('click', function (e) {
   e.preventDefault();
   irParaLogin(el.getAttribute('href') || el.dataset.destino);
 });
-
 
 function atualizarBarra() {
   const u = usuarioLogado();

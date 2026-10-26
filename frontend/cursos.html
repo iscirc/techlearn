@@ -89,7 +89,8 @@ button{padding:12px 22px;border:0;border-radius:8px;background:#1F5FC8;color:#ff
         lista.appendChild(card);
       });
     } catch (e) {
-      msg.textContent = 'Não foi possível carregar os cursos. Confira se a aplicação está rodando no Eclipse.';
+      msg.innerHTML = 'Não foi possível carregar os cursos da API (' + API + '). ' +
+        '<br><a href="javascript:void(0)" onclick="promptConfigurarApi()" style="color:#1F5FC8;font-weight:bold;text-decoration:underline;">Configurar URL da API</a>';
       msg.className = 'erro';
     }
   }

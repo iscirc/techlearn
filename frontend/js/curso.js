@@ -1,6 +1,6 @@
 (function () {
 
-    const API = 'http://localhost:8080';
+    const API = window.API || 'http://localhost:8080';
 
     const parametros = new URLSearchParams(window.location.search);
     const cursoId = parametros.get('id');
@@ -65,7 +65,8 @@
             tocarAula(aulas[0], listaAulas.firstElementChild);
         } catch (erro) {
             console.error(erro);
-            mensagem.textContent = 'Não foi possível carregar o curso. Verifique se a API está rodando.';
+            mensagem.innerHTML = 'Não foi possível carregar o curso da API (' + API + '). ' +
+                '<a href="javascript:void(0)" onclick="promptConfigurarApi()" style="color:#1F5FC8;text-decoration:underline;">Configurar URL da API</a>';
         }
     }
 

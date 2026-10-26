@@ -1,6 +1,6 @@
 console.log('TechLearn carregado');
 
-const API = 'http://localhost:8080';
+const API_ATUAL = window.API || 'http://localhost:8080';
 
 const formBusca = document.getElementById('form-busca');
 const campoBusca = document.getElementById('campo-busca');
@@ -62,7 +62,7 @@ function mostrarCursos() {
 
 async function carregarCursos() {
     try {
-        const resposta = await fetch(API + '/cursos');
+        const resposta = await fetch(API_ATUAL + '/cursos');
         if (!resposta.ok) {
             throw new Error('Erro ' + resposta.status);
         }
@@ -70,7 +70,8 @@ async function carregarCursos() {
         mostrarCursos();
     } catch (erro) {
         console.error(erro);
-        mensagem.textContent = 'Não foi possível carregar os cursos. Verifique se a API está rodando.';
+        mensagem.innerHTML = 'Não foi possível carregar os cursos da API (' + API_ATUAL + '). ' +
+            '<a href="javascript:void(0)" onclick="promptConfigurarApi()" style="color:#1F5FC8;text-decoration:underline;">Configurar URL da API</a>';
     }
 }
 

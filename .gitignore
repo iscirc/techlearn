@@ -12,5 +12,9 @@ target/
 # Node (frontend)
 node_modules/
 
+# Utilitários locais
+tools/
+*.exe
+
 # Lixo do Windows
 Thumbs.db

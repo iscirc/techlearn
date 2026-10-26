@@ -1,6 +1,7 @@
 (function () {
 
-    const URL_CHAT = 'http://localhost:8080/chat';
+    const API_BASE = window.API || 'http://localhost:8080';
+    const URL_CHAT = API_BASE + '/chat';
 
     let botao = document.getElementById('botao-chat');
     if (!botao) {
@@ -114,7 +115,7 @@
         } catch (erro) {
             console.error(erro);
             aguardando.remove();
-            adicionarMensagem('Não foi possível conectar à API. Confira se a aplicação está rodando.', 'erro');
+            adicionarMensagem('Não foi possível conectar à API (' + API_BASE + '). Verifique se o backend está ativo.', 'erro');
         } finally {
             campo.disabled = false;
             enviar.disabled = false;

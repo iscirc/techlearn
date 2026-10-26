@@ -40,7 +40,11 @@ public class ChatbotService {
         this.cursoRepository = cursoRepository;
         this.restClient = RestClient.create();
         this.apiKey = apiKey;
-        this.modelo = modelo;
+        String mod = (modelo != null && !modelo.isBlank()) ? modelo.trim() : "gemini-1.5-flash";
+        if (mod.startsWith("models/")) {
+            mod = mod.substring("models/".length());
+        }
+        this.modelo = mod;
     }
 
     public String enviarPergunta(String pergunta) {

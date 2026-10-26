@@ -1,5 +1,3 @@
-
-
 package com.techlearn.techlearn_api;
 
 import java.util.List;
@@ -13,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-@CrossOrigin(origins = {
-    "http://127.0.0.1:5500",
-    "http://localhost:5500"
-})
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/cursos")
 public class CursoController {
@@ -32,7 +27,6 @@ public class CursoController {
         return cursoRepository.findAll();
     }
 
- 
     @GetMapping("/{id}")
     public ResponseEntity<Curso> buscarPorId(@PathVariable("id") Long id) {
         Curso curso = cursoRepository.findById(id)
