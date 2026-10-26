@@ -4,7 +4,7 @@ const CHAVE = 'techlearn_usuario';
 
 // URL de produção / túnel HTTPS padrão para o GitHub Pages
 // Você pode alterar pelo console chamando definirApiUrl('https://...') ou clicando no aviso de conexão
-const URL_PRODUCAO_PADRAO = 'https://born-cleveland-black-exercises.trycloudflare.com';
+const URL_PRODUCAO_PADRAO = 'https://yesterday-entity-fixes-estimates.trycloudflare.com';
 
 function obterApiUrl() {
   const salva = localStorage.getItem(CHAVE_STORAGE_API);
